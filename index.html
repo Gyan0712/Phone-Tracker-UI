@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Tracker</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for better typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Add smooth transitions for theme changes */
+        .themed {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Login Screen (Visible by default) -->
+    <div id="login-screen" class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="p-1">
+                <div id="login-header" class="themed rounded-t-lg p-4 text-center bg-blue-600">
+                    <h1 class="text-2xl font-bold text-white">Phone Tracker Login</h1>
+                </div>
+                
+                <form id="login-form" class="p-6 space-y-4">
+                    <div id="login-error" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                        <!-- Error message will be inserted here -->
+                    </div>
+                    
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+                        <input id="username-input" type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter username">
+                    </div>
+                    
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input id="password-input" type="password" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter password">
+                    </div>
+                    
+                    <button id="login-button" type="submit" class="themed w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md transition-colors">
+                        Login
+                    </button>
+                    
+                    <div class="text-center text-sm text-gray-500">
+                        <p>Demo credentials: admin / password</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen (Hidden by default) -->
+    <div id="dashboard-screen" class="hidden min-h-screen bg-gray-100">
+        <header id="dashboard-header" class="themed bg-blue-600 text-white p-4 shadow-md">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-xl font-bold">Phone Tracker</h1>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="bg-white bg-opacity-20 rounded-md p-1">
+                        <label for="theme-select" class="mr-2 text-sm">Theme:</label>
+                        <select id="theme-select" class="bg-transparent text-white border-none outline-none cursor-pointer">
+                            <option value="blue" class="text-black">Blue</option>
+                            <option value="green" class="text-black">Green</option>
+                            <option value="purple" class="text-black">Purple</option>
+                            <option value="teal" class="text-black">Teal</option>
+                        </select>
+                    </div>
+                    
+                    <button id="logout-button" class="bg-white bg-opacity-20 hover:bg-opacity-30 px-3 py-1 rounded-md text-sm transition-colors">
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="p-4 md:p-8">
+            <div class="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                         <h2 class="text-2xl font-bold text-gray-800">Device Tracking</h2>
+                         <div class="text-sm text-gray-500">
+                            <p>Vadodara, Gujarat</p>
+                         </div>
+                    </div>
+                    
+                    <!-- Phone Status Card -->
+                    <div id="status-card" class="themed bg-blue-100 rounded-lg p-4 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">Device Status</h3>
+                            <div class="flex items-center">
+                                <div id="tracking-indicator" class="w-3 h-3 rounded-full mr-2 bg-green-500 animate-pulse"></div>
+                                <span id="tracking-status-text" class="text-sm font-medium">Tracking Active</span>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-white rounded-lg p-3 shadow-sm flex items-center">
+                                <!-- Battery Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                                <div>
+                                    <p class="text-sm text-gray-600 mb-1">Battery Level</p>
+                                    <div class="flex items-center">
+                                        <div class="w-24 bg-gray-200 rounded-full h-2.5 mr-2">
+                                            <div id="battery-bar" class="h-2.5 rounded-full bg-green-500" style="width: 85%;"></div>
+                                        </div>
+                                        <span id="battery-level-text" class="text-sm font-medium">85%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-3 shadow-sm flex items-center">
+                                <!-- Clock Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <div>
+                                    <p class="text-sm text-gray-600 mb-1">Last Update</p>
+                                    <p id="last-update-text" class="text-sm font-medium">2 minutes ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Location Map -->
+                    <div class="bg-gray-50 rounded-lg overflow-hidden mb-6">
+                        <div class="h-48 bg-blue-100 relative">
+                            <img src="https://placehold.co/600x400/a7c9f8/333333?text=Map+of+Vadodara" alt="Map showing a location in Vadodara" class="w-full h-full object-cover">
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                <div class="w-8 h-8 bg-red-500 rounded-full border-4 border-white shadow-lg animate-pulse"></div>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold mb-2">Current Location</h3>
+                            <p id="current-location-text" class="text-gray-600">Alkapuri, Vadodara, Gujarat</p>
+                            <p id="accuracy-text" class="text-gray-500 text-sm">Accuracy: 15 meters</p>
+                        </div>
+                    </div>
+
+                    <!-- Location History -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-700">Location History</h3>
+                        <div id="location-history-list" class="space-y-2">
+                           <!-- History items will be injected by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button id="toggle-tracking-button" class="flex-1 py-3 px-4 rounded-lg font-medium bg-red-100 text-red-700 hover:bg-red-200 transition-colors">
+                            Pause Tracking
+                        </button>
+                        
+                        <button id="request-update-button" class="themed flex-1 py-3 px-4 bg-blue-100 text-blue-700 rounded-lg font-medium hover:opacity-90 transition-colors">
+                            Request Location Update
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- STATE ---
+            let batteryLevel = 85;
+            let isTracking = true;
+            let batteryInterval, updateInterval;
+            let currentLocationIndex = 0;
+
+            // --- INDIAN LOCATIONS (VADODARA) ---
+            const vadodaraLocations = [
+                { name: "Sayaji Baug, Near Kala Ghoda", accuracy: 12 },
+                { name: "Laxmi Vilas Palace, J N Marg", accuracy: 25 },
+                { name: "Inorbit Mall, Gorwa Road", accuracy: 8 },
+                { name: "Mandvi Gate, M G Road", accuracy: 30 },
+                { name: "Alkapuri, Vadodara, Gujarat", accuracy: 15 }
+            ];
+
+            // --- THEME COLORS ---
+            const themeColors = {
+                blue: { primary: "bg-blue-600", light: "bg-blue-100", text: "text-blue-700", hover: "hover:bg-blue-700" },
+                green: { primary: "bg-green-600", light: "bg-green-100", text: "text-green-700", hover: "hover:bg-green-700" },
+                purple: { primary: "bg-purple-600", light: "bg-purple-100", text: "text-purple-700", hover: "hover:bg-purple-700" },
+                teal: { primary: "bg-teal-600", light: "bg-teal-100", text: "text-teal-700", hover: "hover:bg-teal-700" }
+            };
+
+            // --- DOM ELEMENTS ---
+            const loginScreen = document.getElementById('login-screen');
+            const dashboardScreen = document.getElementById('dashboard-screen');
+            const loginForm = document.getElementById('login-form');
+            const loginError = document.getElementById('login-error');
+            const usernameInput = document.getElementById('username-input');
+            const passwordInput = document.getElementById('password-input');
+            
+            const themeSelect = document.getElementById('theme-select');
+            const logoutButton = document.getElementById('logout-button');
+            const batteryBar = document.getElementById('battery-bar');
+            const batteryLevelText = document.getElementById('battery-level-text');
+            const lastUpdateText = document.getElementById('last-update-text');
+            const trackingIndicator = document.getElementById('tracking-indicator');
+            const trackingStatusText = document.getElementById('tracking-status-text');
+            const toggleTrackingButton = document.getElementById('toggle-tracking-button');
+            const requestUpdateButton = document.getElementById('request-update-button');
+            const currentLocationText = document.getElementById('current-location-text');
+            const accuracyText = document.getElementById('accuracy-text');
+            const locationHistoryList = document.getElementById('location-history-list');
+            
+            // --- FUNCTIONS ---
+
+            // Update location UI
+            function updateLocationUI(location) {
+                currentLocationText.textContent = location.name;
+                accuracyText.textContent = `Accuracy: ${location.accuracy} meters`;
+            }
+
+            // Populate location history
+            function populateLocationHistory() {
+                locationHistoryList.innerHTML = '';
+                const history = [
+                    { time: "10:30 AM", place: "Sayaji Baug" },
+                    { time: "09:15 AM", place: "Laxmi Vilas Palace" },
+                    { time: "08:00 AM", place: "Alkapuri" }
+                ];
+
+                history.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center p-2 bg-gray-50 rounded';
+                    div.innerHTML = `
+                        <span class="text-sm text-gray-700">${item.time}</span>
+                        <span class="text-sm text-gray-500">${item.place}</span>
+                    `;
+                    locationHistoryList.appendChild(div);
+                });
+            }
+
+            // Apply theme colors to all themed elements
+            function applyTheme(themeName) {
+                const theme = themeColors[themeName];
+                const elementsToTheme = {
+                    '#login-header': [theme.primary],
+                    '#login-button': [theme.primary, theme.hover],
+                    '#dashboard-header': [theme.primary],
+                    '#status-card': [theme.light],
+                    '#request-update-button': [theme.light, theme.text]
+                };
+
+                // Remove all possible theme classes before applying new ones
+                const allColorClasses = Object.values(themeColors).flatMap(t => Object.values(t)).join(' ');
+
+                for (const selector in elementsToTheme) {
+                    const el = document.querySelector(selector);
+                    if (el) {
+                        el.classList.remove(...allColorClasses.split(' '));
+                        el.classList.add(...elementsToTheme[selector]);
+                    }
+                }
+            }
+
+            // Update the battery UI
+            function updateBatteryUI() {
+                batteryLevelText.textContent = `${batteryLevel}%`;
+                batteryBar.style.width = `${batteryLevel}%`;
+                
+                batteryBar.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-red-500');
+                if (batteryLevel > 50) {
+                    batteryBar.classList.add('bg-green-500');
+                } else if (batteryLevel > 20) {
+                    batteryBar.classList.add('bg-yellow-500');
+                } else {
+                    batteryBar.classList.add('bg-red-500');
+                }
+            }
+
+            // Start background simulations
+            function startSimulations() {
+                // Simulate battery drain
+                batteryInterval = setInterval(() => {
+                    if (batteryLevel > 5) {
+                        batteryLevel--;
+                        updateBatteryUI();
+                    }
+                }, 60000); // every minute
+
+                // Simulate location updates
+                updateInterval = setInterval(() => {
+                    const minutes = Math.floor(Math.random() * 5) + 1;
+                    lastUpdateText.textContent = `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
+                }, 30000); // every 30 seconds
+            }
+            
+            // Stop background simulations
+            function stopSimulations() {
+                clearInterval(batteryInterval);
+                clearInterval(updateInterval);
+            }
+
+            // Handle login
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = usernameInput.value;
+                const password = passwordInput.value;
+
+                if (username === 'admin' && password === 'password') {
+                    loginScreen.classList.add('hidden');
+                    dashboardScreen.classList.remove('hidden');
+                    loginError.classList.add('hidden');
+                    updateLocationUI(vadodaraLocations[currentLocationIndex]);
+                    populateLocationHistory();
+                    startSimulations();
+                } else {
+                    loginError.textContent = 'Invalid username or password';
+                    loginError.classList.remove('hidden');
+                }
+            });
+
+            // Handle logout
+            logoutButton.addEventListener('click', () => {
+                dashboardScreen.classList.add('hidden');
+                loginScreen.classList.remove('hidden');
+                usernameInput.value = '';
+                passwordInput.value = '';
+                stopSimulations();
+                // Reset state for next login
+                batteryLevel = 85;
+                isTracking = true;
+                updateBatteryUI();
+                lastUpdateText.textContent = '2 minutes ago';
+                currentLocationIndex = 0;
+                updateLocationUI(vadodaraLocations[currentLocationIndex]);
+            });
+            
+            // Handle theme change
+            themeSelect.addEventListener('change', (e) => {
+                applyTheme(e.target.value);
+            });
+
+            // Handle toggle tracking
+            toggleTrackingButton.addEventListener('click', () => {
+                isTracking = !isTracking;
+                if (isTracking) {
+                    trackingStatusText.textContent = 'Tracking Active';
+                    trackingIndicator.classList.remove('bg-red-500');
+                    trackingIndicator.classList.add('bg-green-500');
+                    toggleTrackingButton.textContent = 'Pause Tracking';
+                    toggleTrackingButton.className = 'flex-1 py-3 px-4 rounded-lg font-medium bg-red-100 text-red-700 hover:bg-red-200 transition-colors';
+
+                } else {
+                    trackingStatusText.textContent = 'Tracking Paused';
+                    trackingIndicator.classList.remove('bg-green-500');
+                    trackingIndicator.classList.add('bg-red-500');
+                    toggleTrackingButton.textContent = 'Resume Tracking';
+                    toggleTrackingButton.className = 'flex-1 py-3 px-4 rounded-lg font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors';
+                }
+            });
+
+            // Handle request location update
+            requestUpdateButton.addEventListener('click', () => {
+                lastUpdateText.textContent = 'Updating...';
+                
+                // Cycle to the next location
+                currentLocationIndex = (currentLocationIndex + 1) % vadodaraLocations.length;
+                const newLocation = vadodaraLocations[currentLocationIndex];
+
+                setTimeout(() => {
+                    updateLocationUI(newLocation);
+                    lastUpdateText.textContent = 'Just now';
+                }, 1000);
+            });
+
+            // Initial setup
+            applyTheme('blue'); // Set default theme
+        });
+    </script>
+</body>
+</html>
+
